@@ -21,4 +21,4 @@ jobs:
       - run: npm run lint:editorconfig
       - run: npm run lint:ts
       - run: npm run lint:scss
-      - run: npm run prettier:check
+      - run: npm run lint:prettier
