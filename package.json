@@ -9,6 +9,7 @@
     "test": "ng test",
     "lint:prettier": "prettier --check 'src/**/*.{ts,html}' --config .prettierrc",
     "lint:ts": "eslint src/**/*.ts --ext .ts --fix",
+    "lint:scss": "stylelint src/**/*.scss --fix --syntax scss --config .stylelintrc",
     "lint:editorconfig": "editorconfig-checker"
   },
   "private": true,
