@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint:prettier": "prettier --check 'src/**/*.{ts,html}' --config .prettierrc",
+    "lint:prettier": "prettier --check 'src/**/*.{ts,html}' --config ./.prettierrc",
     "lint:ts": "eslint src/**/*.ts --ext .ts --fix",
     "lint:scss": "stylelint src/**/*.scss --fix --config .stylelintrc",
     "lint:editorconfig": "editorconfig-checker"
@@ -41,6 +41,7 @@
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.2.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "jasmine-core": "~4.0.0",
     "karma": "~6.3.0",
