@@ -2,9 +2,9 @@
   "env": {
     "browser": true,
     "es2021": true,
-    "jasmine": true,
-    "cypress/globals": true
+    "jasmine": true
   },
+
   "extends": [
     "standard",
     "prettier"
