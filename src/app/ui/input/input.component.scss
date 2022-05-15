@@ -1,0 +1,16 @@
+.input {
+  &__input {
+    width: 100%;
+    height: 100%;
+    padding: 6px 10px;
+    border: none;
+    outline: none;
+    background: var(--dark-gray-300);
+    color: var(--dark-gray-100);
+    border-radius: 10px;
+
+    &::placeholder {
+      color: var(--dark-gray-200);
+    }
+  }
+}
