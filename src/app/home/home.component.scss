@@ -1,0 +1,19 @@
+.home {
+  &__inner {
+    padding: 45px 0 0;
+  }
+
+  &__time {
+    color: var(--dark-gray-100);
+  }
+
+  &__weather {
+    display: flex;
+    align-items: center;
+    color: var(--dark-gray-100);
+  }
+
+  &__weather-icon {
+    height: 35px;
+  }
+}

@@ -1,0 +1,21 @@
+.notification {
+  position: fixed;
+  right: 25px;
+  bottom: 35px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 15px 20px;
+    min-width: 430px;
+    background-color: var(--dark-gray-400);
+    color: var(--dark-gray-100);
+    border-radius: 10px;
+  }
+
+  &__item-icon {
+    cursor: pointer;
+  }
+}

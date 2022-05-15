@@ -1,0 +1,19 @@
+<!-- @format -->
+
+<div class="notification">
+  <ul class="notification__list">
+    <li
+      @notification
+      *ngFor="let notification of notificationService.stream$ | async"
+      class="ui-font notification__item"
+    >
+      {{ notification.message }}
+
+      <app-icon
+        (click)="notificationService.deleteNotification(notification.id)"
+        class="notification__item-icon"
+        iconName="cross"
+      ></app-icon>
+    </li>
+  </ul>
+</div>

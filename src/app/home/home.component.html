@@ -1,0 +1,24 @@
+<!-- @format -->
+
+<div class="home">
+  <div class="container home__inner">
+    <time class="h1-font home__time" #timer>{{ time }}</time>
+    <div class="ui-font home__weather" *ngIf="weather">
+      <img
+        class="home__weather-icon"
+        [src]="weatherService.getWeatherIconUrl(weather.icon)"
+        [alt]="weather.description"
+      />
+
+      {{ weather.temp.toFixed() }}&deg;,
+      {{ weather.description }}
+    </div>
+    <app-tag-button
+      *ngIf="!weather && !weatherService.isAgreeWithWeather()"
+      (click)="addWeather()"
+    >
+      <app-icon iconName="plus"></app-icon>
+      Add weather
+    </app-tag-button>
+  </div>
+</div>
