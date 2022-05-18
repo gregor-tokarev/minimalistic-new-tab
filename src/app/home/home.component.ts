@@ -9,6 +9,11 @@ import {
 import { WeatherService } from './services/weather.service'
 import { Weather } from '../../types/weather'
 import { NotificationService } from '../ui/services/notification.service'
+import { BookmarkService } from './services/bookmark.service'
+import * as dayjs from 'dayjs'
+import { concatMap, Subscription } from 'rxjs'
+import { Bookmark } from '../../types/bookmark'
+import { ValidationService } from '../core/services/validation.service'
 
 @Component({
   selector: 'app-home',
@@ -18,7 +23,9 @@ import { NotificationService } from '../ui/services/notification.service'
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     public weatherService: WeatherService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    public bookmarkService: BookmarkService,
+    private validationService: ValidationService
   ) {}
 
   @ViewChild('timer') timer?: ElementRef
@@ -42,6 +49,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       )
     }
+
+    this.bookmarksSubscription$ = this.bookmarkService
+      .getBookmarks()
+      .subscribe((bookmarks) => {
+        this.bookmarks = bookmarks
+      })
   }
 
   public addWeather(): void {
@@ -72,6 +85,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.bookmarksSubscription$?.unsubscribe()
     clearInterval(this.timerInterval)
   }
 
@@ -82,5 +96,82 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
 
     return `${hours}:${minutes}`
+  }
+
+  public bookmarksSubscription$?: Subscription
+  private _searchQuery: string = ''
+  public bookmarks: Bookmark[] = []
+
+  public get filteredBookmarks(): Bookmark[] {
+    if (this._searchQuery === '') {
+      return this.bookmarks
+    }
+
+    return this.bookmarks.filter((bookmark) =>
+      bookmark.name.toLowerCase().includes(this._searchQuery.toLowerCase())
+    )
+  }
+
+  public get validUrlInSearch(): boolean {
+    return this.validationService.isURL(this.searchQuery)
+  }
+
+  public get urlInSearch(): URL {
+    return new URL(this.searchQuery)
+  }
+
+  public get urlDomain(): string {
+    const urlDomain = this.urlInSearch.hostname.split('.')
+    return urlDomain[urlDomain.length - 2]
+  }
+
+  public set searchQuery(value: string) {
+    this._searchQuery = value
+  }
+
+  public get searchQuery(): string {
+    return this._searchQuery
+  }
+
+  createBookmarkFromUrl(): void {
+    if (this.validUrlInSearch) {
+      this.bookmarkService
+        .addBookmark({
+          name: this.urlDomain,
+          url: this.searchQuery,
+          createdAt: dayjs().format(),
+          updatedAt: dayjs().format(),
+        })
+        .subscribe((bookmark) => {
+          this.bookmarks.push(bookmark)
+        })
+      this.searchQuery = ''
+    }
+  }
+
+  public createBookmark() {
+    this.bookmarkService
+      .openBookmarkModal()
+      .pipe(
+        concatMap((bookmark) => {
+          return this.bookmarkService.addBookmark({
+            ...bookmark,
+            createdAt: dayjs().format(),
+            updatedAt: dayjs().format(),
+          })
+        })
+      )
+      .subscribe(
+        (bookmark) => {
+          this.bookmarks.push(bookmark)
+        },
+        (error) => {
+          this.notificationService.createNotification({
+            type: 'error',
+            message: error.srcElement.error.message,
+            lifeTime: 6000,
+          })
+        }
+      )
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { IndexeddbService } from '../../core/services/indexeddb.service'
-import { Bookmark } from '../../../types/bookmark'
-import { Observable } from 'rxjs'
+import { Bookmark, ModalResponse } from '../../../types/bookmark'
+import { Observable, Subscriber } from 'rxjs'
 import { nanoid } from 'nanoid'
 
 @Injectable({
@@ -39,5 +39,16 @@ export class BookmarkService {
       bookmarkId,
       bookmark
     )
+  }
+
+  public manageModalResolver?: Subscriber<ModalResponse>
+  public isManageModalOpen = false
+
+  public openBookmarkModal(): Observable<ModalResponse> {
+    this.isManageModalOpen = true
+
+    return new Observable<ModalResponse>((observer) => {
+      this.manageModalResolver = observer
+    })
   }
 }

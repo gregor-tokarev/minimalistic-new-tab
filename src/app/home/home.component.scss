@@ -1,6 +1,19 @@
 .home {
   &__inner {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
     padding: 45px 0 0;
+  }
+
+  &__header {
+    grid-column: 1 / 4;
+  }
+
+  &__main {
+    grid-column: 1 / 6;
+    grid-row-start: 2;
+    margin-top: 70px;
   }
 
   &__time {
@@ -15,5 +28,46 @@
 
   &__weather-icon {
     height: 35px;
+  }
+
+  &__bookmarks-list {
+    margin: 20px 0 10px;
+  }
+
+  &__quick-add {
+    margin-top: 20px;
+  }
+
+  &__no-results {
+    color: var(--dark-gray-200);
+  }
+
+  &__no-results-action {
+    color: var(--dark-gray-100);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.bookmark {
+  display: flex;
+  padding: 4px 10px;
+  color: var(--dark-gray-100);
+  transition: all 0.3s ease-in-out;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--dark-gray-300);
+  }
+}
+
+.quick-add {
+  color: var(--dark-gray-200);
+
+  &__action {
+    color: var(--dark-gray-100);
+    text-decoration: underline;
+    cursor: pointer;
   }
 }

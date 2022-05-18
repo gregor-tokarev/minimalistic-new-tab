@@ -5,24 +5,21 @@ import { Observable, of, switchMap, throwError } from 'rxjs'
   providedIn: 'root',
 })
 export class IndexeddbService {
-  constructor() {
-    this.init().subscribe((db) => {
-      this.db = db
-    })
-  }
+  constructor() {}
 
   private readonly dbName = 'main'
   private readonly dbVersion = 1
   private db?: IDBDatabase
 
-  private init(): Observable<IDBDatabase> {
+  public init(): Observable<IDBDatabase> {
     return new Observable<IDBDatabase>((observer) => {
       const request = indexedDB.open(this.dbName, this.dbVersion)
       request.addEventListener('error', (event) => {
         observer.error(event)
       })
       request.addEventListener('success', (_event) => {
-        observer.next(this.db)
+        this.db = request.result
+        observer.next(request.result)
         observer.complete()
       })
       request.addEventListener('upgradeneeded', (event) => {
@@ -38,7 +35,7 @@ export class IndexeddbService {
   private v1Schema() {
     const bookmarks = this.db?.createObjectStore('bookmarks', { keyPath: 'id' })
     bookmarks?.createIndex('url', 'url', { unique: true })
-    bookmarks?.createIndex('title', 'title')
+    bookmarks?.createIndex('name', 'name')
   }
 
   public deleteObject(dbName: string, objectId: string): Observable<any> {
@@ -135,7 +132,10 @@ export class IndexeddbService {
     )
   }
 
-  public addObject<T>(dbName: string, object: T): Observable<T> {
+  public addObject<T>(
+    dbName: string,
+    object: T & { id: string }
+  ): Observable<T> {
     return new Observable((observer) => {
       const transaction = this.db?.transaction(dbName, 'readwrite')
       const store = transaction?.objectStore(dbName)
@@ -143,6 +143,7 @@ export class IndexeddbService {
 
       request?.addEventListener('error', (event) => {
         observer.error(event)
+        transaction?.abort()
       })
       request?.addEventListener('success', (_event) => {
         observer.next(object)

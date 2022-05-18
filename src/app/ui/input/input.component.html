@@ -4,6 +4,8 @@
   <input
     [value]="value"
     (input)="updateValue($event)"
+    (keyup.enter)="enter.emit($event)"
+    [placeholder]="placeholder"
     type="text"
     class="ui-font input__input"
   />

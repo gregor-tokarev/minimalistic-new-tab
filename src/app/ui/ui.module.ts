@@ -5,6 +5,8 @@ import { IconComponent } from './icon/icon.component'
 import { InlineSVGModule } from 'ng-inline-svg-2'
 import { NotificationsComponent } from './notifications/notifications.component'
 import { InputComponent } from './input/input.component'
+import { ModalComponent } from './modal/modal.component'
+import { ButtonComponent } from './button/button.component'
 
 @NgModule({
   declarations: [
@@ -12,6 +14,8 @@ import { InputComponent } from './input/input.component'
     IconComponent,
     NotificationsComponent,
     InputComponent,
+    ModalComponent,
+    ButtonComponent,
   ],
   imports: [CommonModule, InlineSVGModule],
   exports: [
@@ -19,6 +23,8 @@ import { InputComponent } from './input/input.component'
     IconComponent,
     NotificationsComponent,
     InputComponent,
+    ModalComponent,
+    ButtonComponent,
   ],
 })
 export class UIModule {}

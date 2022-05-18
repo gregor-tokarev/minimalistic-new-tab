@@ -1,0 +1,29 @@
+.bookmark {
+  width: 610px;
+
+  &__title {
+    color: var(--dark-gray-100);
+    margin-bottom: 25px;
+  }
+
+  &__form-control {
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
+
+  &__label {
+    color: var(--dark-gray-200);
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+    color: var(--dark-gray-200);
+  }
+
+  &__submit-button {
+    margin-right: 8px;
+  }
+}
