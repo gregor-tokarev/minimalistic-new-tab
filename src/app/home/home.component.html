@@ -30,7 +30,13 @@
         (enter)="createBookmarkFromUrl()"
         placeholder="name of website"
         [(value)]="searchQuery"
-      ></app-input>
+      >
+        <app-icon
+          ngProjectAs="left-icon"
+          iconSize="17"
+          iconName="search"
+        ></app-icon>
+      </app-input>
       <div class="home__bookmarks">
         <ng-container *ngIf="!validUrlInSearch; else quickAdd">
           <ul class="home__bookmarks-list">

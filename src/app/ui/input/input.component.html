@@ -1,6 +1,10 @@
 <!-- @format -->
 
 <div class="input">
+  <div class="input__left-icon">
+    <ng-content select="left-icon"></ng-content>
+  </div>
+
   <input
     [value]="value"
     (input)="updateValue($event)"
