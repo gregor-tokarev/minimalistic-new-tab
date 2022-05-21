@@ -23,6 +23,10 @@
         <app-icon iconSize="20px" iconName="plus"></app-icon>
         Add weather
       </app-tag-button>
+      <app-loader
+        loaderSize="30px"
+        *ngIf="!weather && weatherService.isAgreeWithWeather()"
+      ></app-loader>
     </header>
 
     <main class="home__main">

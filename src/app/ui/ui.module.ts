@@ -7,6 +7,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { InputComponent } from './input/input.component'
 import { ModalComponent } from './modal/modal.component'
 import { ButtonComponent } from './button/button.component'
+import { LoaderComponent } from './loader/loader.component'
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ButtonComponent } from './button/button.component'
     InputComponent,
     ModalComponent,
     ButtonComponent,
+    LoaderComponent,
   ],
   imports: [CommonModule, InlineSVGModule],
   exports: [
@@ -25,6 +27,7 @@ import { ButtonComponent } from './button/button.component'
     InputComponent,
     ModalComponent,
     ButtonComponent,
+    LoaderComponent,
   ],
 })
 export class UIModule {}
