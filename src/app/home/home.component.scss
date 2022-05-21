@@ -51,14 +51,34 @@
 
 .bookmark {
   display: flex;
+  align-items: center;
   padding: 4px 10px;
   color: var(--dark-gray-100);
   transition: all 0.3s ease-in-out;
   border-radius: 5px;
   cursor: pointer;
 
+
+  &__actions {
+    display: none;
+    align-items: center;
+    margin-left: auto;
+  }
+
   &:hover {
     background-color: var(--dark-gray-300);
+
+    .bookmark__actions {
+      display: flex;
+    }
+  }
+
+  &__icon {
+    cursor: pointer;
+
+    &:not(:last-child) {
+      margin-right: 20px;
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Observable, of, switchMap, throwError } from 'rxjs'
+import { concatMap, Observable, of, throwError } from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
@@ -112,12 +112,12 @@ export class IndexeddbService {
     objectUpdate: Partial<T>
   ): Observable<T | never> {
     return this.getObject<T>(dbName, objectId).pipe(
-      switchMap((object) => {
+      concatMap((object) => {
         const updatedObject = { ...object, ...objectUpdate }
 
         const transaction = this.db?.transaction([dbName], 'readwrite')
         const store = transaction?.objectStore(dbName)
-        const request = store?.put(updatedObject, objectId)
+        const request = store?.put(updatedObject)
 
         request?.addEventListener('error', (_event) => {
           return throwError(new Error('Error updating object'))
@@ -127,7 +127,7 @@ export class IndexeddbService {
           return of(updatedObject as T)
         })
 
-        return throwError(new Error('Error updating object'))
+        return of(updatedObject as T)
       })
     )
   }

@@ -1,26 +1,58 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { BookmarkService } from '../services/bookmark.service'
+import { ValidationService } from '../../core/services/validation.service'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-manage-bookmark',
   templateUrl: './manage-bookmark.component.html',
   styleUrls: ['./manage-bookmark.component.scss'],
 })
-export class ManageBookmarkComponent implements OnInit {
-  constructor(public bookmarkService: BookmarkService) {
+export class ManageBookmarkComponent implements OnInit, OnDestroy {
+  constructor(
+    private bookmarkService: BookmarkService,
+    private validationService: ValidationService
+  ) {
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required]),
       url: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^(http|https):\/\/[^ "]+$/),
+        this.validationService.urlValidator.bind(this.validationService),
       ]),
     })
   }
 
-  form: FormGroup
+  set isOpen(value: boolean) {
+    if (!value) {
+      this.bookmarkService.manageModalResolver?.error()
+      this.bookmarkService.manageModalResolver?.complete()
 
-  ngOnInit(): void {}
+      this.bookmarkService.isManageModalOpen = false
+    }
+  }
+
+  get isOpen() {
+    return this.bookmarkService.isManageModalOpen
+  }
+
+  form: FormGroup
+  fieldsSubscription$?: Subscription
+
+  ngOnInit(): void {
+    this.fieldsSubscription$ = this.bookmarkService.bookmarkFields.subscribe(
+      (fields) => {
+        this.form.setValue({
+          name: fields.name,
+          url: fields.url,
+        })
+      }
+    )
+  }
+
+  ngOnDestroy() {
+    this.fieldsSubscription$?.unsubscribe()
+  }
 
   public submit() {
     if (!this.form.valid) {

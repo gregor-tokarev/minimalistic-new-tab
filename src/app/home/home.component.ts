@@ -149,6 +149,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  public deleteBookmark(event: Event, bookmarkId: string): void {
+    event.preventDefault()
+    event.stopPropagation()
+
+    this.bookmarkService.deleteBookmark(bookmarkId).subscribe(() => {
+      this.bookmarks = this.bookmarks.filter(
+        (bookmark) => bookmark.id !== bookmarkId
+      )
+    })
+  }
+
   public createBookmark() {
     this.bookmarkService
       .openBookmarkModal()
@@ -173,5 +184,30 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
           })
         }
       )
+  }
+
+  editBookmark(event: Event, id: string) {
+    event.preventDefault()
+    event.stopPropagation()
+
+    const bookmark = this.bookmarks.find((bookmark) => bookmark.id === id)
+    this.bookmarkService
+      .openBookmarkModal({
+        name: bookmark?.name ?? '',
+        url: bookmark?.url ?? '',
+      })
+      .pipe(
+        concatMap((bookmark) => {
+          return this.bookmarkService.updateBookmark(id, bookmark)
+        })
+      )
+      .subscribe((bookmark) => {
+        this.bookmarks = this.bookmarks.map((b) => {
+          if (b.id === id) {
+            return bookmark
+          }
+          return b
+        })
+      })
   }
 }

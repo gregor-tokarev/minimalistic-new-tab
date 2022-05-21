@@ -41,6 +41,21 @@
                 class="bookmark text-font"
               >
                 {{ bookmark.name }}
+
+                <div class="bookmark__actions">
+                  <app-icon
+                    (click)="deleteBookmark($event, bookmark.id)"
+                    class="bookmark__icon"
+                    iconName="trash"
+                    iconSize="19"
+                  ></app-icon>
+                  <app-icon
+                    (click)="editBookmark($event, bookmark.id)"
+                    class="bookmark__icon"
+                    iconName="edit-pen"
+                    iconSize="19"
+                  ></app-icon>
+                </div>
               </a>
             </li>
           </ul>

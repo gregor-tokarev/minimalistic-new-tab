@@ -1,21 +1,21 @@
 <!-- @format -->
 
-<app-modal [(isOpen)]="bookmarkService.isManageModalOpen">
+<app-modal [(isOpen)]="isOpen">
   <div class="bookmark">
     <h1 class="h1-font bookmark__title">Add new bookmark</h1>
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div>
         <div class="bookmark__form-control">
-          <label class="text-font bookmark__label" for="bookmark-name"
-            >Name</label
-          >
+          <label class="text-font bookmark__label" for="bookmark-name">
+            Name
+          </label>
           <app-input id="bookmark-name" formControlName="name"></app-input>
         </div>
         <div class="bookmark__form-control">
-          <label class="text-font bookmark__label" for="bookmark-url"
-            >Url</label
-          >
+          <label class="text-font bookmark__label" for="bookmark-url">
+            Url
+          </label>
           <app-input id="bookmark-url" formControlName="url"></app-input>
         </div>
       </div>
