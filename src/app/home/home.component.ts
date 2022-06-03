@@ -13,6 +13,7 @@ import * as dayjs from 'dayjs'
 import { concatMap, Subscription } from 'rxjs'
 import { Bookmark } from '../../types/bookmark'
 import { ValidationService } from '../core/services/validation.service'
+import { WeatherService } from './services/weather.service'
 
 @Component({
   selector: 'app-home',
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private notificationService: NotificationService,
     public bookmarkService: BookmarkService,
+    public weatherService: WeatherService,
     private validationService: ValidationService
   ) {}
 
@@ -33,11 +35,47 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   public weather?: Weather
 
   ngOnInit(): void {
+    if (this.weatherService.isAgreeWithWeather()) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.weatherService
+            .fetchWeather(position.coords.latitude, position.coords.longitude)
+            .subscribe((weather) => {
+              this.weather = weather
+            })
+        },
+        (_error) => {
+          this.weatherService.setWeatherAgreebilness(false)
+        }
+      )
+    }
+
     this.bookmarksSubscription$ = this.bookmarkService
       .getBookmarks()
       .subscribe((bookmarks) => {
         this.bookmarks = bookmarks
       })
+  }
+
+  public addWeather(): void {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.weatherService.setWeatherAgreebilness(true)
+        this.weatherService
+          .fetchWeather(position.coords.latitude, position.coords.longitude)
+          .subscribe((weather) => {
+            this.weather = weather
+          })
+      },
+      (_error) => {
+        this.weatherService.setWeatherAgreebilness(false)
+        this.notificationService.createNotification({
+          type: 'message',
+          message: 'You need to allow location access',
+          lifeTime: 3000,
+        })
+      }
+    )
   }
 
   ngAfterViewInit() {
