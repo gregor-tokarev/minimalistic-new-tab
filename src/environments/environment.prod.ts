@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  weatherApiKey: '9f03392a7bec34aa22fcdd0860bbe927',
+  meteomaticsToken:
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJ2IjoxLCJ1c2VyIjoic2VsZmVtcGxvZWVkX3Rva2FyZXYiLCJpc3MiOiJsb2dpbi5tZXRlb21hdGljcy5jb20iLCJleHAiOjE2NTMyOTMxMDgsInN1YiI6ImFjY2VzcyJ9.Zee0qDtEwPfZ4HlDY1V5ttR1HDCvZOvCs5yTgabgYi-MPj34jhPMJg_-zcmSV98ucSFE_k5vE1_0_NpDh6NU_A',
 }

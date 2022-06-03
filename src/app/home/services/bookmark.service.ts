@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { IndexeddbService } from '../../core/services/indexeddb.service'
-import { Bookmark, ModalResponse } from '../../../types/bookmark'
+import { Bookmark, ModalOptions, ModalResponse } from '../../../types/bookmark'
 import { BehaviorSubject, Observable, Subscriber } from 'rxjs'
 import { nanoid } from 'nanoid'
 
@@ -41,22 +41,22 @@ export class BookmarkService {
     )
   }
 
-  public bookmarkFields = new BehaviorSubject<{ name: string; url: string }>({
-    name: '',
-    url: '',
+  public modalOptions = new BehaviorSubject<ModalOptions>({
+    body: { name: '', url: '' },
+    title: '',
   })
 
   public manageModalResolver?: Subscriber<ModalResponse>
   public isManageModalOpen = false
 
   public openBookmarkModal(
-    fields = {
-      url: '',
-      name: '',
+    options: ModalOptions = {
+      body: { url: '', name: '' },
+      title: '',
     }
   ): Observable<ModalResponse> {
     this.isManageModalOpen = true
-    this.bookmarkFields.next(fields)
+    this.modalOptions.next(options)
 
     return new Observable<ModalResponse>((observer) => {
       this.manageModalResolver = observer

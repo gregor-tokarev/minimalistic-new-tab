@@ -2,7 +2,7 @@
 
 <app-modal [(isOpen)]="isOpen">
   <div class="bookmark">
-    <h1 class="h1-font bookmark__title">Add new bookmark</h1>
+    <h1 class="h1-font bookmark__title">{{ modalTitle }}</h1>
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div>

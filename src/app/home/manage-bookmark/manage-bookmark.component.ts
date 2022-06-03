@@ -39,13 +39,14 @@ export class ManageBookmarkComponent implements OnInit, OnDestroy {
   form: FormGroup
   fieldsSubscription$?: Subscription
 
+  modalTitle = ''
+
   ngOnInit(): void {
-    this.fieldsSubscription$ = this.bookmarkService.bookmarkFields.subscribe(
-      (fields) => {
-        this.form.setValue({
-          name: fields.name,
-          url: fields.url,
-        })
+    this.fieldsSubscription$ = this.bookmarkService.modalOptions.subscribe(
+      (options) => {
+        console.log(options)
+        this.form.setValue(options.body ?? { name: '', url: '' })
+        this.modalTitle = options.title ?? ''
       }
     )
   }

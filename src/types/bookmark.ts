@@ -10,3 +10,11 @@ export interface ModalResponse {
   name: string
   url: string
 }
+
+export interface ModalOptions {
+  body?: {
+    name: string
+    url: string
+  }
+  title?: string
+}

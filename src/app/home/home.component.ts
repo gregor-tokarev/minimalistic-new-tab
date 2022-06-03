@@ -6,7 +6,6 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core'
-import { WeatherService } from './services/weather.service'
 import { Weather } from '../../types/weather'
 import { NotificationService } from '../ui/services/notification.service'
 import { BookmarkService } from './services/bookmark.service'
@@ -22,7 +21,6 @@ import { ValidationService } from '../core/services/validation.service'
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
-    public weatherService: WeatherService,
     private notificationService: NotificationService,
     public bookmarkService: BookmarkService,
     private validationService: ValidationService
@@ -35,47 +33,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   public weather?: Weather
 
   ngOnInit(): void {
-    if (this.weatherService.isAgreeWithWeather()) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          this.weatherService
-            .fetchWeather(position.coords.latitude, position.coords.longitude)
-            .subscribe((weather) => {
-              this.weather = weather
-            })
-        },
-        (_error) => {
-          this.weatherService.setWeatherAgreebilness(false)
-        }
-      )
-    }
-
     this.bookmarksSubscription$ = this.bookmarkService
       .getBookmarks()
       .subscribe((bookmarks) => {
         this.bookmarks = bookmarks
       })
-  }
-
-  public addWeather(): void {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.weatherService.setWeatherAgreebilness(true)
-        this.weatherService
-          .fetchWeather(position.coords.latitude, position.coords.longitude)
-          .subscribe((weather) => {
-            this.weather = weather
-          })
-      },
-      (_error) => {
-        this.weatherService.setWeatherAgreebilness(false)
-        this.notificationService.createNotification({
-          type: 'message',
-          message: 'You need to allow location access',
-          lifeTime: 3000,
-        })
-      }
-    )
   }
 
   ngAfterViewInit() {
@@ -162,7 +124,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public createBookmark() {
     this.bookmarkService
-      .openBookmarkModal()
+      .openBookmarkModal({ title: 'Add new bookmark' })
       .pipe(
         concatMap((bookmark) => {
           return this.bookmarkService.addBookmark({
@@ -193,8 +155,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     const bookmark = this.bookmarks.find((bookmark) => bookmark.id === id)
     this.bookmarkService
       .openBookmarkModal({
-        name: bookmark?.name ?? '',
-        url: bookmark?.url ?? '',
+        title: 'Edit bookmark',
+        body: {
+          name: bookmark?.name ?? '',
+          url: bookmark?.url ?? '',
+        },
       })
       .pipe(
         concatMap((bookmark) => {

@@ -6,27 +6,6 @@
   <div class="container home__inner">
     <header class="home__header">
       <time class="h1-font home__time" #timer>{{ time }}</time>
-      <div class="ui-font home__weather" *ngIf="weather">
-        <img
-          class="home__weather-icon"
-          [src]="weatherService.getWeatherIconUrl(weather.icon)"
-          [alt]="weather.description"
-        />
-
-        {{ weather.temp.toFixed() }}&deg;,
-        {{ weather.description }}
-      </div>
-      <app-tag-button
-        *ngIf="!weather && !weatherService.isAgreeWithWeather()"
-        (click)="addWeather()"
-      >
-        <app-icon iconSize="20px" iconName="plus"></app-icon>
-        Add weather
-      </app-tag-button>
-      <app-loader
-        loaderSize="30px"
-        *ngIf="!weather && weatherService.isAgreeWithWeather()"
-      ></app-loader>
     </header>
 
     <main class="home__main">
