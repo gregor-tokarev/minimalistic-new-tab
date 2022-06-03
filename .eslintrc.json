@@ -2,8 +2,7 @@
   "env": {
     "browser": true,
     "es2021": true,
-    "jasmine": true,
-    "cypress/globals": true
+    "jasmine": true
   },
   "extends": [
     "standard",
@@ -15,8 +14,12 @@
     "sourceType": "module"
   },
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "prettier"
   ],
   "rules": {
+    "prettier/prettier": "error",
+    "no-useless-constructor": "off",
+    "no-useless-escape": "off"
   }
 }

@@ -1,0 +1,102 @@
+<!-- @format -->
+
+<div class="home">
+  <app-manage-bookmark></app-manage-bookmark>
+
+  <div class="container home__inner">
+    <header class="home__header">
+      <time class="h1-font home__time" #timer>{{ time }}</time>
+      <div class="ui-font home__weather" *ngIf="weather">
+        <img
+          class="home__weather-icon"
+          [src]="weatherService.getWeatherIconUrl(weather.icon)"
+          [alt]="weather.description"
+        />
+
+        {{ weather.temp.toFixed() }}&deg;,
+        {{ weather.description }}
+      </div>
+      <app-tag-button
+        *ngIf="!weather && !weatherService.isAgreeWithWeather()"
+        (click)="addWeather()"
+      >
+        <app-icon iconSize="20px" iconName="plus"></app-icon>
+        Add weather
+      </app-tag-button>
+      <app-loader
+        loaderSize="30px"
+        *ngIf="!weather && weatherService.isAgreeWithWeather()"
+      ></app-loader>
+    </header>
+
+    <main class="home__main">
+      <app-input
+        (enter)="createBookmarkFromUrl()"
+        placeholder="name of website"
+        [(value)]="searchQuery"
+      >
+        <app-icon
+          ngProjectAs="left-icon"
+          iconSize="17"
+          iconName="search"
+        ></app-icon>
+      </app-input>
+      <div class="home__bookmarks">
+        <ng-container *ngIf="!validUrlInSearch; else quickAdd">
+          <ul class="home__bookmarks-list">
+            <li *ngFor="let bookmark of filteredBookmarks">
+              <a
+                [href]="bookmark.url"
+                target="_blank"
+                class="bookmark text-font"
+              >
+                {{ bookmark.name }}
+
+                <div class="bookmark__actions">
+                  <app-icon
+                    (click)="deleteBookmark($event, bookmark.id)"
+                    class="bookmark__icon"
+                    iconName="trash"
+                    iconSize="19"
+                  ></app-icon>
+                  <app-icon
+                    (click)="editBookmark($event, bookmark.id)"
+                    class="bookmark__icon"
+                    iconName="edit-pen"
+                    iconSize="19"
+                  ></app-icon>
+                </div>
+              </a>
+            </li>
+          </ul>
+
+          <app-tag-button
+            *ngIf="filteredBookmarks.length; else noResults"
+            (click)="createBookmark()"
+          >
+            <app-icon iconSize="20px" iconName="plus"></app-icon>
+            Add Bookmark
+          </app-tag-button>
+
+          <ng-template #noResults>
+            <p class="text-font home__no-results">
+              No results for “{{ searchQuery }}”
+              <span (click)="createBookmark()" class="home__no-results-action"
+                >add new bookmark</span
+              >
+            </p>
+          </ng-template>
+        </ng-container>
+
+        <ng-template #quickAdd>
+          <p class="text-font home__quick-add quick-add">
+            <span (click)="createBookmarkFromUrl()" class="quick-add__action"
+              >Press enter</span
+            >
+            to create bookmark with name {{ urlDomain }} and giving link
+          </p>
+        </ng-template>
+      </div>
+    </main>
+  </div>
+</div>

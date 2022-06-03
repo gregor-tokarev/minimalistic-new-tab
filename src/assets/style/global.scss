@@ -1,0 +1,30 @@
+@use "fonts";
+@use "uikit/colors";
+@use "uikit/typography";
+@use "uikit/layout";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: var(--dark-bg);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

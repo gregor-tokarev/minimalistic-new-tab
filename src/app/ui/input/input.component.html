@@ -1,0 +1,16 @@
+<!-- @format -->
+
+<div class="input">
+  <div class="input__left-icon">
+    <ng-content select="left-icon"></ng-content>
+  </div>
+
+  <input
+    [value]="value"
+    (input)="updateValue($event)"
+    (keyup.enter)="enter.emit($event)"
+    [placeholder]="placeholder"
+    type="text"
+    class="ui-font input__input"
+  />
+</div>

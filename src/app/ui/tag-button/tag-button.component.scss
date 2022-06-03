@@ -1,0 +1,21 @@
+.tag-button {
+  display: flex;
+  align-items: center;
+  padding: 3px 5px;
+  border-radius: 10px;
+  color: var(--dark-gray-200);
+  transition: all 0.2s;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+
+  ::ng-deep .icon {
+    font-size: initial;
+    margin-right: 7px;
+  }
+
+  &:hover {
+    background-color: var(--dark-gray-300);
+  }
+}
