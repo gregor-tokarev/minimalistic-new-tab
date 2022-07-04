@@ -14,8 +14,6 @@
     "128": "assets/favicon/128x128.png"
   },
   "permissions": [
-    "storage",
-    "webRequest",
     "geolocation"
   ],
   "chrome_url_overrides": {
