@@ -35,10 +35,11 @@ jobs:
       - uses: montudor/action-zip@v1
         with:
           args: zip -qq -r app.zip dist/minimalistic-new-tab
-      - name: release
-        uses: mnao305/chrome-extension-upload@2.2.0
+-       uses: Klemensas/chrome-extension-upload-action@$VERSION
         with:
-          file-path: app.zip
-          extension-id: ${{ secrets.EXTENSION_ID }}
-          client-id: ${{ secrets.CLIENT_ID }}
           refresh-token: ${{ secrets.REFRESH_TOKEN }}
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          file-name: 'app.zip'
+          app-id: ${{ secrets.EXTENSION_ID }}
+          publish: true
